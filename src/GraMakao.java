@@ -55,7 +55,6 @@ public class GraMakao extends Gra {
         while (true) {
             System.out.println("\nTURA " + (tura++) + ": Gracz " + aktualnyGracz + " ma: " + gracze.get(aktualnyGracz).posiadaneKarty);
             System.out.println("Na stosie: " + stos.peek());
-            //System.out.println("Na stosie: " + stos.peek() + ", ileDobrac=" + ileDobrac + ", ilePauzowac=" + ilePauzowac + ", jakiKolor=" + jakiKolor + ", jakaFigura=" + jakaFigura);
 
             ruch(gracze.get(aktualnyGracz));
 
@@ -221,21 +220,14 @@ public class GraMakao extends Gra {
             }
             case CZTERY -> ilePauzowac += 1;
             case AS -> {
-                // Lista dozwolonych kolorów (jeśli chcesz pominąć np. JOKER itp., tutaj możesz to kontrolować)
                 List<Kolor> dozwoloneKolory = List.of(Kolor.TREFL, Kolor.KARO, Kolor.KIER, Kolor.PIK);
-
-                // Zbierz kolory, które gracz faktycznie ma na ręce i które są dozwolone
                 Set<Kolor> koloryGracza = gracz.posiadaneKarty.stream()
                         .map(k -> k.kolor)
                         .filter(dozwoloneKolory::contains)
                         .collect(Collectors.toSet());
-
-                // Zamień na listę, aby losowo wybrać jeden
                 List<Kolor> wspolneKolory = new ArrayList<>(koloryGracza);
                 jakiKolor = wspolneKolory.isEmpty() ? null : wspolneKolory.get(rand.nextInt(wspolneKolory.size()));
-
                 graczZadajacyKolor = gracz;
-
                 System.out.println("Gracz " + gracz.id + " żąda " + (jakiKolor == null ? "niczego" : "koloru: " + jakiKolor));
             }
             case WALET -> {
@@ -252,7 +244,6 @@ public class GraMakao extends Gra {
                 List<Figura> wspolneFigury = new ArrayList<>(figuryGracza);
                 jakaFigura = wspolneFigury.isEmpty() ? null : wspolneFigury.get(rand.nextInt(wspolneFigury.size()));
                 graczZadajacyFigure = gracz;
-
                 System.out.println("Gracz " + gracz.id + " żąda " + (jakaFigura == null ? "niczego" : "figury: " + jakaFigura));
             }
         }

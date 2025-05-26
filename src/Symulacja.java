@@ -1,6 +1,9 @@
 public class Symulacja {
     public static void main(String[] args) {
-        Gra gra = new GraMakao(4);
-        gra.rozpocznijGre();
+        Gra gram = new GraMakao(3);
+        gram.rozpocznijGre();
+
+        Gra graw = new GraWojna(3);
+        graw.rozpocznijGre();
     }
 }

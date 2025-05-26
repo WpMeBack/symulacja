@@ -22,7 +22,6 @@ public class GraWojna extends Gra {
     @Override
     public void rozpocznijGre() {
         while (gracze.stream().filter(g -> g.ileMaKart() > 0).count() > 1) {
-            // Każdy gracz wykonuje ruch (zagrywa kartę)
             for (int i = 0; i < gracze.size(); i++) {
                 Gracz g = gracze.get(aktualnyGracz);
                 ruch(g);
@@ -40,14 +39,11 @@ public class GraWojna extends Gra {
 
         for (int i = 0; i < gracze.size(); i++) {
             if (gracze.get(i).ileMaKart() > 0 && !kolejnoscOdpadania.contains(i)) {
-                kolejnoscOdpadania.add(i); // dodaj zwycięzcę jako ostatniego
+                kolejnoscOdpadania.add(i);
                 System.out.println("Gracz " + i + " wygrywa grę!");
             }
         }
-
-// Odwróć listę, żeby zwycięzca był na pierwszym miejscu
         Collections.reverse(kolejnoscOdpadania);
-
         System.out.println("\n=== Miejsca graczy ===");
         for (int miejsce = 0; miejsce < kolejnoscOdpadania.size(); miejsce++) {
             int graczId = kolejnoscOdpadania.get(miejsce);
@@ -108,7 +104,6 @@ public class GraWojna extends Gra {
         }
 
         if (zwyciezcy.size() == 1) {
-            // Normalna wygrana
             int zwyciezca = zwyciezcy.get(0);
             List<Karta> wygraneKarty = new ArrayList<>();
 
@@ -123,10 +118,7 @@ public class GraWojna extends Gra {
             System.out.println("Gracz " + zwyciezca + " wygrywa bitwę.");
         } else {
             System.out.println("WOJNA między graczami: " + zwyciezcy);
-
-            // Uczestnicy wojny – próbują wyłożyć 3 zakryte + 1 odkrytą kartę
             boolean wojnaMozliwa = false;
-
             for (int idx : zwyciezcy) {
                 Gracz gracz = gracze.get(idx);
                 int ileMa = gracz.posiadaneKarty.size();
@@ -136,7 +128,6 @@ public class GraWojna extends Gra {
                 Karta zakryta = gracz.posiadaneKarty.remove(0);
                 kartyPrzedSoba.get(idx).add(zakryta);
 
-                // Odkryta karta bitwy (jeśli jest)
                 if (!gracz.posiadaneKarty.isEmpty()) {
                     Karta odkryta = gracz.posiadaneKarty.remove(0);
                     kartyPrzedSoba.get(idx).add(odkryta);
@@ -147,7 +138,6 @@ public class GraWojna extends Gra {
             }
 
             if (wojnaMozliwa) {
-                // ZACHOWAJ TYLKO karty uczestników wojny, inni gracze mają puste kartyPrzedSoba
                 for (int i = 0; i < gracze.size(); i++) {
                     if (!zwyciezcy.contains(i)) {
                         kartyPrzedSoba.get(i).clear();
@@ -155,7 +145,6 @@ public class GraWojna extends Gra {
                 }
                 rozstrzygnijBitwe();
             } else {
-                // Nikt nie ma kart – wszystkie karty przepadają
                 System.out.println("Nikt nie miał kart na wojnę — karty przepadają.");
                 for (List<Karta> lista : kartyPrzedSoba) {
                     lista.clear();
